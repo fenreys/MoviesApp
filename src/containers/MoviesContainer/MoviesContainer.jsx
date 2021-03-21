@@ -22,7 +22,7 @@ export default class MoviesContainer extends Component {
                 rating,
             }) => {
                 const defaultRating = ()=> {
-                    if (tabSearch) {
+                    if (tabSearch && ratedNotes) {
                         const filtredNotes = ratedNotes.filter(note => note.id === id);
                         if (filtredNotes.length) {
                             return filtredNotes[0].rating
