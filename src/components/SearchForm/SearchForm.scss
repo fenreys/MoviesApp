@@ -1,0 +1,24 @@
+.hidden {
+    display: none;
+}
+
+.search-form {
+    grid-area: form;
+
+    max-width: 388px;
+    width: 100%;
+    margin: 0 auto 10px;
+}
+
+@media (min-width: 486px) {
+    .search-form {
+        max-width: 454px;
+        margin: 0 auto 32px;
+    }
+}
+
+@media (min-width: 1016px) {
+    .search-form {
+        max-width: 944px;
+    }
+}

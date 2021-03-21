@@ -1,0 +1,39 @@
+$g-t-columns-320: 1fr 146px 1fr;
+$g-t-areas-320: '.    buttons .    ' 'form form    form ';
+
+.header {
+    display: grid;
+    grid-template-columns: $g-t-columns-320;
+    grid-template-areas: $g-t-areas-320;
+
+    justify-self: stretch;
+    .header__buttons {
+        grid-area: buttons;
+
+        display: flex;
+        justify-content: space-between;
+
+        box-sizing: border-box;
+        margin: 0 auto 18px;
+        box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.09);
+        button {
+            font-size: 14px;
+            line-height: 22px;
+            text-align: center;
+            color: rgba(0, 0, 0, 0.65);
+
+            box-sizing: border-box;
+            width: 64px;
+            height: 52px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.09);
+        }
+        .selected {
+            color: #1890ff;
+            border-bottom: 2px solid #1890ff;
+        }
+        button:focus,
+        button:active {
+            outline: none;
+        }
+    }
+}
