@@ -46,20 +46,20 @@ export default class MoviesApp extends Component {
     startSession = async () => {
         const { session } = this.state;
         if (!session) {
-            await this.movieService
+            await this.moviesService
                 .startSession()
                 .then((guestSession) => localStorage.setItem('session', JSON.stringify(guestSession)))
-                .catch();
+                .catch(() => this.onError());
         }
     };
 
     getGenres = async () => {
         const { genres } = this.state;
         if (!genres) {
-            await this.movieService
+            await this.moviesService
                 .getGenres()
                 .then((receivedGenres) => localStorage.setItem('genres', JSON.stringify(receivedGenres.genres)))
-                .catch();
+                .catch(() => this.onError());
         }
     };
 
@@ -69,12 +69,15 @@ export default class MoviesApp extends Component {
             tabSearch ? [currentQuery, currentPage] : [undefined, undefined, session.guest_session_id];
 
         this.setState({ loading: true });
-        await this.moviesService
-            .getMovies(undefined, undefined, session.guest_session_id)
-            .then((res, arr=[]) => {
-                res.results.forEach(({id, rating}) => arr.push({id, rating}))
-                localStorage.setItem('ratedNotes', JSON.stringify(arr))
-            })
+        if (session) {
+            await this.moviesService
+                .getMovies(undefined, undefined, session.guest_session_id)
+                .then((res, arr=[]) => {
+                    res.results.forEach(({id, rating}) => arr.push({id, rating}))
+                    localStorage.setItem('ratedNotes', JSON.stringify(arr))
+                })
+                .catch(() => this.onError())
+        }
         this.setState({ ratedNotes: JSON.parse(localStorage.getItem('ratedNotes')) })
         await this.moviesService
             .getMovies(...options)
