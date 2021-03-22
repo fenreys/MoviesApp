@@ -15,7 +15,7 @@ export default class Footer extends Component {
         const { currentPage, totalPages } = this.props;
         return (
             <section className="footer">
-                <Pagination current={currentPage} onChange={this.onChange} showSizeChanger={false} total={totalPages} />
+                <Pagination current={currentPage} onChange={this.onChange} simple={document.documentElement.scrollWidth < 375} showSizeChanger={false} total={totalPages} />
             </section>
         );
     }
