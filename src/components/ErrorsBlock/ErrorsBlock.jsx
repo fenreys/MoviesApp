@@ -9,8 +9,15 @@ export const GotTrouble = () => (
     </div>
 );
 
-export const NoContent = ({ tabSearch }) => {
-    if (tabSearch) {
+export const NoGenres = () => (
+    <div className="no-content">
+        <p>Sorry, i dunno how fix it</p>
+        <p>Just reset page one time :c</p>
+    </div>
+)
+
+export const NoContent = ({ tab }) => {
+    if (tab) {
         return (
             <div className="no-content">
                 <p>Nothing was found for your request :c</p>
@@ -27,9 +34,9 @@ export const NoContent = ({ tabSearch }) => {
 };
 
 NoContent.defaultProps = {
-    tabSearch: true,
+    tab: true,
 }
 
 NoContent.propTypes = {
-    tabSearch: PropTypes.bool,
+    tab: PropTypes.bool,
 }

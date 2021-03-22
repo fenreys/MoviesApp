@@ -31,8 +31,6 @@ export default class MoviesApp extends Component {
     };
 
     componentDidMount() {
-        this.startSession();
-        this.getGenres();
         this.updateMovies();
     }
 
@@ -43,24 +41,32 @@ export default class MoviesApp extends Component {
         }
     }
 
+    startApp = async () => {
+        await this.startSession();
+        await this.getGenres();
+        window.location.reload()
+    }
+
     startSession = async () => {
-        const { session } = this.state;
-        if (!session) {
+        this.setState({ loading: true });
+        if (!localStorage.getItem('session')) {
             await this.moviesService
                 .startSession()
                 .then((guestSession) => localStorage.setItem('session', JSON.stringify(guestSession)))
                 .catch(() => this.onError());
         }
+        this.setState({ loading: false });
     };
 
     getGenres = async () => {
-        const { genres } = this.state;
-        if (!genres) {
+        this.setState({ loading: true });
+        if (!localStorage.getItem('genres')) {
             await this.moviesService
                 .getGenres()
                 .then((receivedGenres) => localStorage.setItem('genres', JSON.stringify(receivedGenres.genres)))
                 .catch(() => this.onError());
         }
+        this.setState({ loading: false });
     };
 
     updateMovies = async () => {
@@ -111,7 +117,7 @@ export default class MoviesApp extends Component {
 
         const errorBlock = error ? <GotTrouble /> : null;
         const spin = loading ? <Spin size="large" /> : null;
-
+        
         const moviesBlock = movies.length !== 0 ? (
             <GenresProvider value={genres}>
                 <MoviesContainer
@@ -125,23 +131,31 @@ export default class MoviesApp extends Component {
             <NoContent tab={tabSearch}/>
         );
         const footerBlock =
-            totalPages && totalPages !== (0 || 1) ? (
+            totalPages && totalPages !== 0 ? (
                 <Footer totalPages={totalPages} currentPage={currentPage} changePage={this.changePage} />
             ) : null;
 
         const content = !preparing ? (
-            <>
+            <>  
                 {moviesBlock}
                 {footerBlock}
             </>
         ) : null;
 
-        return (
-            <section className="movies-app">
+        const app = session && genres ? (
+            <>
                 <Header tabSearch={tabSearch} tabRated={tabRated} changeTab={this.changeTab} changeQuery={this.changeQuery} />
                 {errorBlock}
                 {spin}
                 {content}
+            </>
+        ) : (
+            <button className="movies-app__start" type="button" onClick={() => this.startApp()}>Tap to start!</button>
+        );
+
+        return (
+            <section className="movies-app">
+                {app}
             </section>
         );
     }

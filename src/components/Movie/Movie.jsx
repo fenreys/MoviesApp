@@ -55,31 +55,34 @@ export default class Movie extends Component {
                 <p className="release-date">{date}</p>
                 <GenresConsumer>
                     {(genres, namesArr = []) => {
-                        genres.forEach(({ id, name }) => {
-                            for (const recId of genreIds) {
-                                if (id === recId) {
-                                    namesArr.push(
-                                        <span key={id} className="genre">
-                                            {name}
-                                        </span>
-                                    );
-                                }
-                            }
-                        });
-                        return (
-                            <div
-                                className="genres"
-                                onClick={() => {
-                                    if (modifier === movieModifier.genres) {
-                                        this.setMovieModifier(movieModifier.default)
-                                    } else if (modifier === movieModifier.default) {
-                                        this.setMovieModifier(movieModifier.genres)
+                        if (genres) {
+                            genres.forEach(({ id, name }) => {
+                                for (const recId of genreIds) {
+                                    if (id === recId) {
+                                        namesArr.push(
+                                            <span key={id} className="genre">
+                                                {name}
+                                            </span>
+                                        );
                                     }
-                                }}
-                            >
-                                {namesArr}
-                            </div>
-                        );
+                                }
+                            });
+                            return (
+                                <div
+                                    className="genres"
+                                    onClick={() => {
+                                        if (modifier === movieModifier.genres) {
+                                            this.setMovieModifier(movieModifier.default)
+                                        } else if (modifier === movieModifier.default) {
+                                            this.setMovieModifier(movieModifier.genres)
+                                        }
+                                    }}
+                                >
+                                    {namesArr}
+                                </div>
+                            );
+                        }
+                        return <div className="genres">just reset page one time</div>
                     }}
                 </GenresConsumer>
                 <p className="overview">

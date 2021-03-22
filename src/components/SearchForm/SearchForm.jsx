@@ -1,33 +1,23 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { debounce } from 'lodash';
 
 import { Input } from 'antd';
 
 import './SearchForm.scss';
 
 export default class SearchForm extends Component {
-    state = {
-        text: ''
-    };
-
     onChange = (event) => {
-        this.setState(() => ({ text: event.target.value }));
-    };
-
-    onSubmit = (event) => {
         const { changeQuery } = this.props;
-        event.preventDefault();
-        const { text } = this.state;
-        if (!text) return;
-        changeQuery(text);
+        const text = event.target.value;
+        return text ? changeQuery(text) : changeQuery('return')
     };
 
     render() {
-        const { text } = this.state;
         const { isHidden } = this.props;
         return (
-            <form className={`search-form ${isHidden}`} onSubmit={this.onSubmit}>
-                <Input size="large" placeholder="Type to search..." allowClear onChange={this.onChange} value={text} />
+            <form className={`search-form ${isHidden}`} onSubmit={(event) => event.preventDefault()}>
+                <Input size="large" placeholder="Type to search..." allowClear onChange={debounce(this.onChange, 1000, { maxWait: 1000 })} />
             </form>
         );
     }
