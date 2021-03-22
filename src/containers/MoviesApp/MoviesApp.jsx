@@ -24,20 +24,22 @@ export default class MoviesApp extends Component {
         tabSearch: true,
         tabRated: false,
         currentPage: 1,
-        currentQuery: 'return',
+        currentQuery: '',
         movies: [],
         loading: true,
         error: false,
     };
 
     componentDidMount() {
-        this.updateMovies();
+        this.updateMovies()
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { tabSearch, currentPage, currentQuery } = this.state;
-        if (tabSearch !== prevState.tabSearch || currentPage !== prevState.currentPage || currentQuery !== prevState.currentQuery) {
-            this.updateMovies();
+        if (this.state !== prevState) {
+            const { tabSearch, currentPage, currentQuery } = this.state;
+            if (tabSearch !== prevState.tabSearch || currentPage !== prevState.currentPage || currentQuery !== prevState.currentQuery) {
+                this.updateMovies();
+            }
         }
     }
 
@@ -48,25 +50,21 @@ export default class MoviesApp extends Component {
     }
 
     startSession = async () => {
-        this.setState({ loading: true });
         if (!localStorage.getItem('session')) {
             await this.moviesService
                 .startSession()
                 .then((guestSession) => localStorage.setItem('session', JSON.stringify(guestSession)))
                 .catch(() => this.onError());
         }
-        this.setState({ loading: false });
     };
 
     getGenres = async () => {
-        this.setState({ loading: true });
         if (!localStorage.getItem('genres')) {
             await this.moviesService
                 .getGenres()
                 .then((receivedGenres) => localStorage.setItem('genres', JSON.stringify(receivedGenres.genres)))
                 .catch(() => this.onError());
         }
-        this.setState({ loading: false });
     };
 
     updateMovies = async () => {

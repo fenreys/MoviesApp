@@ -4,13 +4,14 @@ import { debounce } from 'lodash';
 
 import { Input } from 'antd';
 
+import queryCleaner from '../../tools/queryCleaner';
+
 import './SearchForm.scss';
 
 export default class SearchForm extends Component {
     onChange = (event) => {
         const { changeQuery } = this.props;
-        const text = event.target.value;
-        return text ? changeQuery(text) : changeQuery('return')
+        return changeQuery(queryCleaner(event.target.value))
     };
 
     render() {
