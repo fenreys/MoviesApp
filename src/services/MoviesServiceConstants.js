@@ -5,6 +5,7 @@ export const apiLanguage = 'language=en-US';
 export const get = {
     createGuestSession: '/authentication/guest_session/new',
     searchMovies: '/search/movie',
+    getTopRated: '/movie/top_rated',
     getRatedMovies: (guestSessionId) => `/guest_session/${guestSessionId}/rated/movies`,
     getMovieList: '/genre/movie/list',
 };

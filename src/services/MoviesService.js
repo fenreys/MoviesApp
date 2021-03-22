@@ -15,10 +15,16 @@ export default class MoviesService {
     };
 
     getMovies = async (query, page, sessionId) => {
-        const url = sessionId
-            ? `${apiBase}${get.getRatedMovies(sessionId)}?${apiKey}&${apiLanguage}&sort_by=created_at.asc`
-            : `${apiBase}${get.searchMovies}?${apiKey}&${apiLanguage}&query=${query}&page=${page}&include_adult=false`;
-        const res = await fetch(url);
+        const url = () => {
+            if (!sessionId) {
+                if (query === '') {
+                    return `${apiBase}${get.getTopRated}?${apiKey}&${apiLanguage}&page=${page}`
+                }
+                return `${apiBase}${get.searchMovies}?${apiKey}&${apiLanguage}&query=${query}&page=${page}&include_adult=false`
+            }
+            return `${apiBase}${get.getRatedMovies(sessionId)}?${apiKey}&${apiLanguage}&sort_by=created_at.asc`
+        }
+        const res = await fetch(url());
         const body = await res.json();
         return body;
     };
