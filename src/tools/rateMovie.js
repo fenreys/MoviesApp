@@ -1,7 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import MoviesService from '../services/MoviesService';
-
-const moviesService = new MoviesService;
+import moviesService from '../services/MoviesService';
 
 export const rateMovie = async (sessionId, movieId, rating) => {
     if (rating === 0) {

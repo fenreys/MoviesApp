@@ -1,5 +1,7 @@
+require('dotenv').config()
+
 export const apiBase = 'https://api.themoviedb.org/3';
-export const apiKey = 'api_key=74d0af3012078dffc9d5c997064a1756';
+export const apiKey = `api_key=${process.env.REACT_APP_API_KEY}`;
 export const apiLanguage = 'language=en-US';
 
 export const get = {

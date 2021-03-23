@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import format from 'date-fns/format';
@@ -36,59 +35,37 @@ export default class Movie extends Component {
         const date = releaseDate ? format(new Date(releaseDate), 'MMMM d, yyyy') : <span>No date</span>;
         return (
             <article className={`movie ${modifier}`}>
-                <div className="poster">
-                    <img className="image" src={poster} alt="no img :c" />
+                <div className="movie__poster">
+                    <img src={poster} alt="no img :c" />
                 </div>
                 <p
-                    className="title"
+                    className="movie__title"
                     onClick={() => {
-                        if (modifier === movieModifier.title) {
-                            this.setMovieModifier(movieModifier.default)
-                        } else if (modifier === movieModifier.default) {
-                            this.setMovieModifier(movieModifier.title)
-                        }
+                        if (modifier === movieModifier.title) this.setMovieModifier(movieModifier.default)
+                        if (modifier === movieModifier.default) this.setMovieModifier(movieModifier.title)
                     }}
                 >
                     {title}
                 </p>
-                <div className={`vote-average ${voteModifier(voteAverage)}`}>{voteAverage}</div>
-                <p className="release-date">{date}</p>
+                <div className={`movie__vote-average movie__${voteModifier(voteAverage)}`}>{voteAverage}</div>
+                <p className="movie__release-date">{date}</p>
                 <GenresConsumer>
-                    {(genres, namesArr = []) => {
-                        if (genres) {
-                            genres.forEach(({ id, name }) => {
-                                for (const recId of genreIds) {
-                                    if (id === recId) {
-                                        namesArr.push(
-                                            <span key={id} className="genre">
-                                                {name}
-                                            </span>
-                                        );
-                                    }
-                                }
-                            });
-                            return (
-                                <div
-                                    className="genres"
-                                    onClick={() => {
-                                        if (modifier === movieModifier.genres) {
-                                            this.setMovieModifier(movieModifier.default)
-                                        } else if (modifier === movieModifier.default) {
-                                            this.setMovieModifier(movieModifier.genres)
-                                        }
-                                    }}
-                                >
-                                    {namesArr}
-                                </div>
-                            );
-                        }
-                        return <div className="genres">just reset page one time</div>
-                    }}
+                    {(genres) => (
+                        <div
+                            className="movie__genres genres"
+                            onClick={() => {
+                                if (modifier === movieModifier.genres) this.setMovieModifier(movieModifier.default)
+                                if (modifier === movieModifier.default) this.setMovieModifier(movieModifier.genres)
+                            }}
+                        >
+                            {genreIds.map((id) => <span key={id} className="genres__item">{genres[id]}</span>)}
+                        </div>
+                        )}
                 </GenresConsumer>
-                <p className="overview">
+                <p className="movie__overview">
                     {overview.length > 230 ? `${overview.slice(0, overview.lastIndexOf(' ', 230))} ...` : overview}
                 </p>
-                <Rate className="rate" onChange={this.onChange} allowClear allowHalf defaultValue={rating} count={10} />
+                <Rate className="movie__rate" onChange={this.onChange} allowClear allowHalf defaultValue={rating} count={10} />
             </article>
         );
     }

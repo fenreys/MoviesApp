@@ -1,11 +1,11 @@
-.movies-сontainer {
+.movies-list {
     display: grid;
     grid-template-columns: repeat(1, fit-content(388px));
     grid-gap: 20px;
 }
 
 @media (min-width: 486px) {
-    .movies-сontainer {
+    .movies-list {
         display: grid;
         grid-template-columns: repeat(1, fit-content(454px));
         grid-gap: 36px;
@@ -13,7 +13,7 @@
 }
 
 @media (min-width: 1016px) {
-    .movies-сontainer {
+    .movies-list {
         display: grid;
         grid-template-columns: repeat(2, fit-content(454px));
         grid-gap: 36px;

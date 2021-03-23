@@ -15,9 +15,8 @@ export default class SearchForm extends Component {
     };
 
     render() {
-        const { isHidden } = this.props;
         return (
-            <form className={`search-form ${isHidden}`} onSubmit={(event) => event.preventDefault()}>
+            <form className="header__search-form" onSubmit={(event) => event.preventDefault()}>
                 <Input size="large" placeholder="Type to search..." allowClear onChange={debounce(this.onChange, 1000, { maxWait: 1000 })} />
             </form>
         );
@@ -25,11 +24,9 @@ export default class SearchForm extends Component {
 }
 
 SearchForm.defaultProps = {
-    isHidden: '',
     changeQuery: null,
 };
 
 SearchForm.propTypes = {
-    isHidden: PropTypes.string,
     changeQuery: PropTypes.func,
 };

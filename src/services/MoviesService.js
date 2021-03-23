@@ -1,8 +1,7 @@
-/* eslint-disable no-underscore-dangle */
 import { apiBase, apiKey, apiLanguage, get, post, del } from './MoviesServiceConstants';
 
-export default class MoviesService {
-    startSession = async () => {
+class MoviesService {
+    getSession = async () => {
         const res = await fetch(`${apiBase}${get.createGuestSession}?${apiKey}`);
         const body = await res.json();
         return body;
@@ -14,17 +13,20 @@ export default class MoviesService {
         return body;
     };
 
-    getMovies = async (query, page, sessionId) => {
-        const url = () => {
-            if (!sessionId) {
-                if (query === '') {
-                    return `${apiBase}${get.getTopRated}?${apiKey}&${apiLanguage}&page=${page}`
-                }
-                return `${apiBase}${get.searchMovies}?${apiKey}&${apiLanguage}&query=${query}&page=${page}&include_adult=false`
-            }
-            return `${apiBase}${get.getRatedMovies(sessionId)}?${apiKey}&${apiLanguage}&sort_by=created_at.asc`
-        }
-        const res = await fetch(url());
+    getTopRated = async (page) => {
+        const res = await fetch(`${apiBase}${get.getTopRated}?${apiKey}&${apiLanguage}&page=${page}`);
+        const body = await res.json();
+        return body;
+    }
+    
+    getRated = async (sessionId) => {
+        const res = await fetch(`${apiBase}${get.getRatedMovies(sessionId)}?${apiKey}&${apiLanguage}&sort_by=created_at.asc`);
+        const body = await res.json();
+        return body;        
+    }
+
+    getSearched = async (query, page) => {
+        const res = await fetch(`${apiBase}${get.searchMovies}?${apiKey}&${apiLanguage}&query=${query}&page=${page}&include_adult=false`)
         const body = await res.json();
         return body;
     };
@@ -54,3 +56,7 @@ export default class MoviesService {
         return body;
     };
 }
+
+const moviesService = new MoviesService();
+
+export default moviesService 

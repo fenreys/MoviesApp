@@ -1,5 +1,5 @@
 $g-t-columns-320: 10px 60px 12px 1fr 12px 18px 12px 8px;
-$g-t-rows-320: 6px 30px 6px 22px 6px 20px 8px 1fr 46px;
+$g-t-rows-320: 6px 30px 6px 22px 6px 20px 8px 10px 1fr 46px;
 $g-t-areas-320: '. .        .        .             .        .            .            .'
     '. poster   .        title         .        vote-average vote-average .'
     '. poster   .        .             .        .            .            .'
@@ -7,6 +7,7 @@ $g-t-areas-320: '. .        .        .             .        .            .      
     '. poster   .        .             .        .            .            .'
     '. poster   .        genres        .        .            .            .'
     '. poster   .        .             .        .            .            .'
+    '. .        .        .             .        .            .            .'
     '. overview overview overview      overview overview     .            .'
     '. rate     rate     rate          rate     rate         rate         .';
 
@@ -34,82 +35,85 @@ $g-t-rows--genres-modifier: 6px 1px 1px 1px 1px 80px 8px 1fr 46px;
     box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
     min-width: 288px;
     height: 246px;
-
     font-family: Inter;
     font-size: 12px;
     line-height: 18px;
     color: #000000;
 
-    .poster {
+    .movie__poster {
         grid-area: poster;
         box-sizing: border-box;
     }
-    .image {
+
+    img {
         width: 100%;
         height: 92px;
     }
-    .title {
+
+    .movie__title {
         grid-area: title;
         justify-self: stretch;
         align-self: start;
-
         align-items: center;
-
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         font-size: 18px;
         line-height: 24px;
     }
-    .title:hover {
+
+    .movie__title:hover {
         cursor: pointer;
     }
-    .vote-average {
+
+    .movie__vote-average {
         grid-area: vote-average;
         justify-self: end;
         align-self: start;
-
         display: flex;
         justify-content: center;
         align-items: center;
-
         box-sizing: border-box;
         width: 30px;
         height: 30px;
         border-radius: 15px;
     }
-    .vote-average--empty {
+
+    .movie__vote-average_empty {
         border: 2px solid #a2a2a2;
     }
-    .vote-average--very-low {
+
+    .movie__vote-average_very-low {
         border: 2px solid #e90000;
     }
-    .vote-average--low {
+
+    .movie__vote-average_low {
         border: 2px solid #e97e00;
     }
-    .vote-average--normal {
+
+    .movie__vote-average_normal {
         border: 2px solid #e9d100;
     }
-    .vote-average--nice {
+
+    .movie__vote-average_nice {
         border: 2px solid #66e900;
     }
-    .release-date {
+
+    .movie__release-date {
         grid-area: release-date;
-
         align-items: center;
-
         color: #827e7e;
     }
+
+    .movie__genres,
     .genres {
         grid-area: genres;
-
         display: flex;
-
         align-items: flex-end;
-
         white-space: nowrap;
         overflow: hidden;
-        .genre {
+
+        .genres__item {
             box-sizing: border-box;
             padding: 2px 5px;
             border: 1px solid #d9d9d9;
@@ -121,54 +125,63 @@ $g-t-rows--genres-modifier: 6px 1px 1px 1px 1px 80px 8px 1fr 46px;
             color: rgba(0, 0, 0, 0.65);
         }
     }
-    .genres:hover {
+
+    .movie__genres:hover {
         cursor: pointer;
     }
-    .overview {
-        grid-area: overview;
 
+    .movie__overview {
+        grid-area: overview;
         align-items: center;
     }
-    .rate {
-        grid-area: rate;
 
+    .movie__rate {
+        grid-area: rate;
         display: flex;
         align-items: center;
-
         margin: 0 auto;
-
         font-size: 16px;
     }
 }
-.movie--title {
+
+.movie_show-title {
     animation: title-restructuring 0.2s 0.15s forwards;
-    .title {
+
+    .movie__title {
         animation: show-title 0s 0.35s forwards;
     }
-    .release-date,
-    .genres {
+
+    .movie__release-date,
+    .movie__genres {
         animation: stashing 0.1s 0.15s forwards;
     }
-    .overview {
+
+    .movie__overview {
         animation: hiding 0.1s 0.15s forwards;
     }
 }
-.movie--genres {
+
+.movie_show-genres {
     animation: genres-restructuring 0.2s 0.15s forwards;
-    .title,
-    .release-date {
+
+    .movie__title,
+    .movie__release-date {
         animation: stashing 0.1s 0.15s forwards;
     }
+
+    .movie__genres,
     .genres {
         align-content: flex-end;
         flex-wrap: wrap;
         animation: show-genres 0s 0.35s forwards;
-        .genre {
+
+        .genres__item {
             flex-basis: content;
             margin-top: 4px;
         }
     }
-    .overview {
+
+    .movie__overview {
         animation: hiding 0.1s 0.15s forwards;
     }
 }
@@ -210,16 +223,14 @@ $g-t-rows--genres-modifier: 6px 1px 1px 1px 1px 80px 8px 1fr 46px;
 
 @media (min-width: 375px) {
     .movie {
-        font-size: 12px;
         line-height: 20px;
     }
 }
 
 @media (min-width: 420px) {
     .movie {
-        font-size: 12px;
-        line-height: 20px;
-        .title {
+        line-height: 22px;
+        .movie__title {
             font-size: 20px;
             line-height: 28px;
         }
@@ -231,14 +242,16 @@ $g-t-rows--genres-modifier: 6px 1px 1px 1px 1px 80px 8px 1fr 46px;
         grid-template-columns: $g-t-columns--486;
         grid-template-rows: $g-t-rows--486;
         grid-template-areas: $g-t-areas--486;
-
+        min-width: 454px;
         height: 282px;
-        .poster {
-            .image {
+
+        .movie__poster {
+            img {
                 height: 282px;
             }
         }
-        .rate {
+
+        .movie__rate {
             margin: 0;
         }
     }

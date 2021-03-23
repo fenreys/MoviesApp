@@ -1,16 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-import Movie from '../../components/Movie';
+import Movie from '../Movie';
 
-import './MoviesContainer.scss';
+import './MoviesList.scss';
 
-export default class MoviesContainer extends Component {
-    state = {};
-
-    getMovies = () => {
-        const { tabSearch, movies, ratedNotes, rateMovie } = this.props;
-        return movies.map(
+const MoviesList = ({ tabSearch, movies, ratedNotes, rateMovie }) => (
+        <div className="movies-list">
+        {movies.map(
             ({
                 id,
                 poster_path: posterPath,
@@ -45,22 +42,20 @@ export default class MoviesContainer extends Component {
                     />
                 );
             }
-        );
-    };
+        )}
+        </div>
+)
 
-    render() {
-        return <div className="movies-сontainer">{this.getMovies()}</div>;
-    }
-}
+export default MoviesList
 
-MoviesContainer.defaultProps = {
+MoviesList.defaultProps = {
     tabSearch: true,
     movies: [],
     ratedNotes: [],
     rateMovie: null,
 };
 
-MoviesContainer.propTypes = {
+MoviesList.propTypes = {
     tabSearch: PropTypes.bool,
     movies: PropTypes.instanceOf(Array),
     ratedNotes: PropTypes.instanceOf(Array),

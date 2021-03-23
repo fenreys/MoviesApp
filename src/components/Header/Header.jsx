@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { isSearch, isRated, isHidden } from './HeaderConstants';
+import { isSearch, isRated } from './HeaderConstants';
 import SearchForm from '../SearchForm';
 
 import './Header.scss';
@@ -12,21 +12,21 @@ const Header = ({ tabSearch, tabRated, changeTab, changeQuery }) => (
             <button
                 className={isSearch(tabSearch)}
                 type="button"
-                onClick={tabRated ? () => changeTab() : null}
+                onClick={tabRated ? changeTab : null}
             >
                 Search
             </button>
             <button
                 className={isRated(tabRated)}
                 type="button"
-                onClick={tabSearch ? () => changeTab() : null}
+                onClick={tabSearch ? changeTab : null}
             >
                 Rated
             </button>
         </div>
-        <SearchForm isHidden={isHidden(tabRated)} changeQuery={changeQuery} />
+        {tabSearch && <SearchForm changeQuery={changeQuery} />}
     </div>
-);
+)
 
 Header.defaultProps = {
     tabSearch: true,
