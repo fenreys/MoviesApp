@@ -97,7 +97,10 @@ export default class MoviesApp extends Component {
             await moviesService
                 .getRated(session.guest_session_id)
                 .then((res) => {
-                    this.setState(() => ({ movies: res.results, totalPages: res.total_pages }));
+                    this.setState(() => ({
+                        movies: res.results.slice((currentPage*10)-10, currentPage*10), 
+                        totalPages: Math.ceil(res.results.length/10)
+                    }));
                 })
                 .catch(() => this.onError())
         }
@@ -138,7 +141,7 @@ export default class MoviesApp extends Component {
             <NoContent tab={tabSearch}/>
         );
 
-        const footerBlock = (totalPages && totalPages !== 0) && 
+        const footer = (totalPages !== 0 && totalPages !== 1) && 
             <Footer totalPages={totalPages} currentPage={currentPage} changePage={this.changePage} />
 
         const app = session && genres ? (
@@ -146,7 +149,7 @@ export default class MoviesApp extends Component {
                 <Header tabSearch={tabSearch} tabRated={tabRated} changeTab={this.changeTab} changeQuery={this.changeQuery} />
                 {error && <GotTrouble />}
                 {loading && <Spin size="large" />}
-                {!preparing && <>{moviesList} {footerBlock}</>}
+                {!preparing && <>{moviesList} {footer}</>}
             </>
         ) : (
             <button className="movies-app__start" type="button" onClick={() => this.startApp()}>Tap to start!</button>
